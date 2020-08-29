@@ -9,7 +9,7 @@ public class VacinaAplicada {
 	private int idPesquisador;
 	private int idVacina;
 	private Date dataAplicacao;
-	private int nota;
+	private int notaVacina;
 	
 	
 	public VacinaAplicada() {
@@ -25,7 +25,7 @@ public class VacinaAplicada {
 		this.idPesquisador = idPesquisador;
 		this.idVacina = idVacina;
 		this.dataAplicacao = dataAplicacao;
-		this.nota = nota;
+		this.notaVacina = nota;
 	}
 
 
@@ -80,19 +80,19 @@ public class VacinaAplicada {
 
 
 	public int getNota() {
-		return nota;
+		return notaVacina;
 	}
 
 
 	public void setNota(int nota) {
-		this.nota = nota;
+		this.notaVacina = nota;
 	}
 
 
 	@Override
 	public String toString() {
 		return "VacinaAplicada [id=" + id + ", idPessoa=" + idPessoa + ", idPesquisador=" + idPesquisador
-				+ ", idVacina=" + idVacina + ", dataAplicacao=" + dataAplicacao + ", nota=" + nota + "]";
+				+ ", idVacina=" + idVacina + ", dataAplicacao=" + dataAplicacao + ", nota=" + notaVacina + "]";
 	}
 	
 	
