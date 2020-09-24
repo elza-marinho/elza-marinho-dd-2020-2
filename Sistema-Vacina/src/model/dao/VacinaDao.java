@@ -14,16 +14,16 @@ public class VacinaDao {
 	public Vacina cadastrar(Vacina novaVacina) {
 		Connection conn = Banco.getConnection();
 
-		String sql = "INSERT INTO VACINA (ID, PAISORIGEM, DATAINICIO, ESTAGIOPESQUISA, NOMEPESQUISADOR )"
+		String sql = "INSERT INTO VACINA ( PAISORIGEM, DATAINICIO, ESTAGIOPESQUISA, NOMEPESQUISADOR )"
 				+ " VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		ResultSet rs = null;
 		try {
-			stmt.setInt(1, novaVacina.getId());
-			stmt.setString(2, novaVacina.getPaisOrigem());
-			stmt.setDate(3, (Date) novaVacina.getDataInicio());
-			stmt.setInt(4, novaVacina.getEstagioPesquisa());
-			stmt.setNString(5, novaVacina.getNomePesquisador());
+			
+			stmt.setString(1, novaVacina.getPaisOrigem());
+			stmt.setDate(2, (Date) novaVacina.getDataInicio());
+			stmt.setInt(3, novaVacina.getEstagioPesquisa());
+			stmt.setNString(4, novaVacina.getNomePesquisador());
 			stmt.execute();
 			rs = stmt.getGeneratedKeys();
 			int refIdGerado = 0;
@@ -52,15 +52,15 @@ public class VacinaDao {
 	public boolean alterar(Vacina vacina) {
 		Connection conn = Banco.getConnection();
 
-		String sql = "UPDATE VACINA SET ID=?, PAISORIGEM=?, DATAINICIO=?, ESTAGIOPESQUISA=?, NOMEPESQUISADOR=? " + "WHERE ID=?";
+		String sql = "UPDATE VACINA SET PAISORIGEM=?, DATAINICIO=?, ESTAGIOPESQUISA=?, NOMEPESQUISADOR=? " + "WHERE ID=?";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		int registrosAlterados = 0;
 		try {
-			stmt.setInt(1, vacina.getId());
-			stmt.setString(2, vacina.getPaisOrigem());
-			stmt.setDate(3, (Date) vacina.getDataInicio());
-			stmt.setInt(4, vacina.getEstagioPesquisa());
-			stmt.setString(5, vacina.getNomePesquisador());
+			
+			stmt.setString(1, vacina.getPaisOrigem());
+			stmt.setDate(2, (Date) vacina.getDataInicio());
+			stmt.setInt(3, vacina.getEstagioPesquisa());
+			stmt.setString(4, vacina.getNomePesquisador());
 
 			registrosAlterados = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -118,7 +118,7 @@ public class VacinaDao {
 	private Vacina construirVacinaDoResultSet(ResultSet conjuntoResultante) throws SQLException {
 		Vacina vac = new Vacina();
 
-		vac.setId(conjuntoResultante.getInt("id"));
+		vac.setId(conjuntoResultante.getInt("Id"));
 		vac.setPaisOrigem(conjuntoResultante.getString("País de Origem"));
 		vac.setDataInicio(conjuntoResultante.getDate("Data de Início"));
 		vac.setEstagioPesquisa(conjuntoResultante.getInt("Estágio da Pesquisa"));
@@ -143,7 +143,7 @@ public class VacinaDao {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao listar vacinas.");
+			System.out.println("Erro ao listar Vacinas.");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closeResultSet(rs);

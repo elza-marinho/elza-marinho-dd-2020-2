@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,13 +123,13 @@ public class PesquisadorDao {
 		pesquisador.setNome(rs.getString("some"));
 		pesquisador.setSexo(rs.getString("sexo").charAt(0));
 		pesquisador.setCpf(rs.getString("cpf"));
-		pesquisador.setDataNascimento(rs.getDate("data de nascimento"));
+		Date dataSQL = rs.getDate("Data de Nascimento");
 		pesquisador.setInstituicao(rs.getString("instituição"));
 
 		return pesquisador;
 	}
 
-	public List<Pesquisador> pesquisarTodos() {
+	public List<Pesquisador> listarTodos() {
 		Connection conn = Banco.getConnection();
 		String sql = " SELECT * FROM PESQUISADOR ";
 
@@ -152,6 +153,46 @@ public class PesquisadorDao {
 		}
 
 		return pesquisadores;
+	}
+
+	public boolean cpfJaUtilizado(String cpf) {
+
+		Connection conn = Banco.getConnection();
+		String sql = " select id from pesquisador p " + "where c.cpf = '" + cpf + "'";
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+		ResultSet rs = null;
+		boolean cpfUsado = false;
+
+		try {
+			rs = stmt.executeQuery();
+			cpfUsado = rs.next();
+		} catch (SQLException e) {
+			System.out.println("Erro na verificação de uso do CPF. Causa: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return cpfUsado;
+	}
+
+	public boolean excluirPorCpf(String cpf) {
+		Connection conn = Banco.getConnection();
+		String sql = "DELETE FROM PESQUISADOR WHERE CPF = '" + cpf + "'";
+		Statement stmt = Banco.getStatement(conn);
+		int quantidadeLinhasAfetadas = 0;
+		try {
+			quantidadeLinhasAfetadas = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir pesquisador pelo cpf.");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return quantidadeLinhasAfetadas > 0;
 	}
 
 }
