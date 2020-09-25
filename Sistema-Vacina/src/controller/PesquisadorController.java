@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.bo.PesquisadorBO;
 import model.dao.PesquisadorDao;
 import model.vo.Pesquisador;
@@ -21,13 +23,21 @@ public class PesquisadorController {
 		return mensagem;
 	}
 
-	public String validarCamposEscritos(String textnome, String textCpf, String textInstituicao) {
+	public String validarCamposEscritos(String Nome, String Cpf, String Instituicao) {
 		Pesquisador pesquisador = new Pesquisador();
 		String mensagem = "";
-		pesquisador.setNome(textnome);
-		pesquisador.setCpf(textCpf);
-		pesquisador.setInstituicao(textInstituicao);
+		if ((Nome == null) || (Nome.trim().length() < 3) || (Nome.trim().length() < 101)) {
+			JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 3 caracteres");
 
+		}
+		if ((Cpf == null) || (Cpf.trim().length() != 11)) {
+			JOptionPane.showMessageDialog(null, "CPF contém somente 11 números");
+
+		}
+		if((Instituicao==null) || (Instituicao.trim().length()<3) ||(Instituicao.trim().length()<201))
+		{
+			JOptionPane.showMessageDialog(null, "Nome da Instituição precisa ter no mínimo 3 caracteres ");
+		}
 		mensagem += validar(pesquisador);
 		if (mensagem.trim().isEmpty()) {
 			pesquisador = bo.cadastrarPesquisador(pesquisador);
@@ -63,7 +73,7 @@ public class PesquisadorController {
 	}
 
 	private String validar(Pesquisador pesquisador) {
-		
+
 		return null;
 	}
 

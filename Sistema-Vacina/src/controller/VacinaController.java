@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.bo.VacinaBO;
 import model.dao.VacinaDao;
 import model.vo.Vacina;
@@ -8,23 +10,24 @@ public class VacinaController {
 	VacinaDao vdao = new VacinaDao();
 	VacinaBO vbo = new VacinaBO();
 
-	public String validarCamposTexto(String textPaisOrigem, String textPesquisador) {
+	public String validarCamposTexto(String PaisOrigem, String Pesquisador) {
 		Vacina vacina = new Vacina();
 		String mensagem = "";
-		vacina.getNomePesquisador();
-		vacina.getPaisOrigem();
-		mensagem += validar(vacina);
-		if (mensagem.isEmpty()) {
-			vacina = vbo.cadastrarVacina(vacina);
+		if ((PaisOrigem == null) || (PaisOrigem.trim().length() < 3) || (PaisOrigem.trim().length() < 101)) {
+			JOptionPane.showMessageDialog(null, "Campo país precisa conter no mínimo 3 caracteres");
 
+		}
+		if((Pesquisador==null) || (Pesquisador.trim().length() <3) ||(Pesquisador.trim().length()<101)){
+			JOptionPane.showMessageDialog(null, "Pesquisador precisa conter no mínimo 3 caracteres");
 		}
 		return mensagem;
 	}
 
 	private String validar(Vacina vacina) {
-		
+
 		return null;
 	}
+
 	public String excluir(String textoIdSelecionado) {
 		String mensagem = "";
 		try {

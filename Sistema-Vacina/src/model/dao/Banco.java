@@ -14,7 +14,7 @@ package model.dao;
 
 		private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 		private static final String BANCODADOS = "VACINA";
-		private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS +  "?useTimezone=true&serverTimezone=GMT-2";;
+		private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS +  "?useTimezone=true&serverTimezone=GMT-3";;
 		private static final String USER = "root";
 		private static final String PASSWORD = "root";
 		

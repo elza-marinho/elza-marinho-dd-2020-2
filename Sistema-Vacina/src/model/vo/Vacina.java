@@ -3,6 +3,11 @@ package model.vo;
 import java.util.Date;
 
 public class Vacina {
+
+	public static final int ESTAGIO_INICIAL = 1;
+	public static final int ESTAGIO_TESTES = 2;
+	public static final int ESTAGIO_APLICACAO_NO_PUBLICO = 3;
+
 	private int id;
 	private String paisOrigem;
 	private Date dataInicio;
@@ -13,17 +18,6 @@ public class Vacina {
 		super();
 
 	}
-	
-
-	public Vacina(int id, String paisOrigem, Date dataInicio, int estagioPesquisa, String nomePesquisador) {
-		super();
-		this.id = id;
-		this.paisOrigem = paisOrigem;
-		this.dataInicio = dataInicio;
-		this.estagioPesquisa = estagioPesquisa;
-		NomePesquisador = nomePesquisador;
-	}
-
 
 	public int getId() {
 		return id;
@@ -48,6 +42,7 @@ public class Vacina {
 	public void setDataInicio(Date dataInicio) {
 		this.dataInicio = dataInicio;
 	}
+	
 
 	public int getEstagioPesquisa() {
 		return estagioPesquisa;
@@ -65,13 +60,10 @@ public class Vacina {
 		NomePesquisador = nomePesquisador;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Vacina [id=" + id + ", paisOrigem=" + paisOrigem + ", dataInicio=" + dataInicio + ", estagioPesquisa="
-				+ estagioPesquisa + ", NomePesquisador=" + NomePesquisador + "]";
+		return "Vacina [id=" + id + ", paisOrigem=" + paisOrigem + ", dataInicio=" + dataInicio + ", NomePesquisador="
+				+ NomePesquisador + "]";
 	}
 
-	
-	
 }
