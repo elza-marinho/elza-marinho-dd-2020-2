@@ -1,13 +1,20 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+
+import controller.PessoaController;
+import model.vo.Pessoa;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
@@ -17,6 +24,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
 
@@ -30,6 +38,7 @@ public class CadastroPessoa extends JFrame {
 	private JLabel lblVoluntario;
 	private JCheckBox chcVoluntario;
 	private JFormattedTextField textDataN;
+	private DateTimeFormatter formatarData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	/**
 	 * Launch the application.
@@ -147,7 +156,14 @@ public class CadastroPessoa extends JFrame {
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PessoaController controller = new PessoaController();
+				String nome = textNome.getText();
+				String Cpf = TextCpf.getText();
+				controller.salvarPessoa();
+				JOptionPane.showMessageDialog(null, "Pessoa cadastrada com sucesso");
 			}
+			
+			
 		});
 		btnVoltar.setBounds(280, 215, 85, 25);
 		contentPane.add(btnVoltar);

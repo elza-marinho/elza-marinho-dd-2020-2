@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -17,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import com.github.lgooddatepicker.components.DatePicker;
+
+import controller.PesquisadorController;
 
 import java.util.Calendar;
 import javax.swing.ButtonGroup;
@@ -129,6 +132,13 @@ public class CadastroPesquisador extends JFrame {
 		contentPane.add(btnVoltar);
 
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PesquisadorController controller = new PesquisadorController();
+				controller.salvarPesquisador(textNome, TextCpf, textInstituicao, textDataNascimento);
+				JOptionPane.showMessageDialog(null, "Pesquisador cadastrado com sucesso");
+			}
+		});
 		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSalvar.setBounds(240, 255, 85, 25);
 		contentPane.add(btnSalvar);

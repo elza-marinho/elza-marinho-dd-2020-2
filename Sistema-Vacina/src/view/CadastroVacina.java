@@ -5,12 +5,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -20,12 +22,16 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import com.github.lgooddatepicker.components.DatePicker;
 
+import controller.VacinaController;
+import model.vo.Vacina;
+
 public class CadastroVacina extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textPaisOrigem;
 	private JTextField textPesquisador;
 	private JFormattedTextField textDataInicio;
+	private DateTimeFormatter formatarData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
 	
 	/**
@@ -98,7 +104,12 @@ public class CadastroVacina extends JFrame {
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VacinaController controller = new VacinaController();
+				controller.salvarVacina();
+			JOptionPane.showMessageDialog(null, "Vacina cadastrada com sucesso");
 			}
+			
+			
 		});
 		btnVoltar.setBounds(125, 225, 85, 25);
 		contentPane.add(btnVoltar);
@@ -107,6 +118,11 @@ public class CadastroVacina extends JFrame {
 		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VacinaController controller = new VacinaController();
+				String paisOrigem = textPaisOrigem.getText();
+				String nomePesquisador = textPesquisador.getText();
+				
+				
 			}
 		});
 		btnSalvar.setBounds(275, 225, 85, 25);

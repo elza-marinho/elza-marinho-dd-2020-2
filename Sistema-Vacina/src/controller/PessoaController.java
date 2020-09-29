@@ -65,5 +65,14 @@ public class PessoaController {
 		}
 		return mensagem;
 	}
-
+	public String salvarPessoa() {
+		String mensagem = "";
+		Pessoa pessoa = new Pessoa();
+		pessoa.getNome();
+		pessoa.getCpf();
+		pessoa.getDataNascimento();
+		pessoa.getSexo();
+		pessoa.isVoluntario();
+		return mensagem ;
+	}
 }

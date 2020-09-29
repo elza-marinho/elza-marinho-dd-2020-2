@@ -11,12 +11,21 @@ public class Vacina {
 	private int id;
 	private String paisOrigem;
 	private Date dataInicio;
-	private int estagioPesquisa;
+	private int estagioVacina;
 	private String NomePesquisador;
 
 	public Vacina() {
 		super();
 
+	}
+
+	public Vacina(int id, String paisOrigem, Date dataInicio, int estagioVacina, String nomePesquisador) {
+		super();
+		this.id = id;
+		this.paisOrigem = paisOrigem;
+		this.dataInicio = dataInicio;
+		this.estagioVacina = estagioVacina;
+		NomePesquisador = nomePesquisador;
 	}
 
 	public int getId() {
@@ -44,12 +53,14 @@ public class Vacina {
 	}
 	
 
-	public int getEstagioPesquisa() {
-		return estagioPesquisa;
+	
+
+	public int getEstagioVacina() {
+		return estagioVacina;
 	}
 
-	public void setEstagioPesquisa(int estagioPesquisa) {
-		this.estagioPesquisa = estagioPesquisa;
+	public void setEstagioVacina(int estagioVacina) {
+		this.estagioVacina = estagioVacina;
 	}
 
 	public String getNomePesquisador() {
@@ -62,8 +73,10 @@ public class Vacina {
 
 	@Override
 	public String toString() {
-		return "Vacina [id=" + id + ", paisOrigem=" + paisOrigem + ", dataInicio=" + dataInicio + ", NomePesquisador="
-				+ NomePesquisador + "]";
+		return "Vacina [id=" + id + ", paisOrigem=" + paisOrigem + ", dataInicio=" + dataInicio + ", estagioVacina="
+				+ estagioVacina + ", NomePesquisador=" + NomePesquisador + "]";
 	}
+
+		
 
 }

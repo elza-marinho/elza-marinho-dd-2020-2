@@ -1,6 +1,10 @@
 package controller;
 
+import java.util.Date;
+
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import model.bo.VacinaBO;
 import model.dao.VacinaDao;
@@ -17,7 +21,7 @@ public class VacinaController {
 			JOptionPane.showMessageDialog(null, "Campo país precisa conter no mínimo 3 caracteres");
 
 		}
-		if((Pesquisador==null) || (Pesquisador.trim().length() <3) ||(Pesquisador.trim().length()<101)){
+		if ((Pesquisador == null) || (Pesquisador.trim().length() < 3) || (Pesquisador.trim().length() < 101)) {
 			JOptionPane.showMessageDialog(null, "Pesquisador precisa conter no mínimo 3 caracteres");
 		}
 		return mensagem;
@@ -39,4 +43,17 @@ public class VacinaController {
 		return mensagem;
 	}
 
+	public String salvarVacina() {
+	
+		String mensagem = "";
+		Vacina vacina = new Vacina();
+		vacina.getPaisOrigem();
+		vacina.getNomePesquisador();
+		vacina.getDataInicio();
+		vacina.getEstagioVacina();
+		return mensagem;
+		
+	
+	}
 }
+

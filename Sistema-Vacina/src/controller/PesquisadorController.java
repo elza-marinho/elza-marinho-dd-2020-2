@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import model.bo.PesquisadorBO;
 import model.dao.PesquisadorDao;
@@ -67,6 +70,8 @@ public class PesquisadorController {
 
 		return mensagem;
 	}
+	
+	
 
 	public List<Pesquisador> listarTodosOsPesquisadores() {
 		return bo.listarTodos();
@@ -75,6 +80,16 @@ public class PesquisadorController {
 	private String validar(Pesquisador pesquisador) {
 
 		return null;
+	}
+	public String  salvarPesquisador(JTextField textNome, JFormattedTextField textCpf, JTextField textInstituicao, JFormattedTextField textDataNascimento) {
+		String mensagem = "";
+		Pesquisador pesquisador = new Pesquisador();
+		pesquisador.getNome();
+		pesquisador.getCpf();
+		pesquisador.getInstituicao();
+		pesquisador.getDataNascimento();
+		return mensagem;
+		
 	}
 
 }
