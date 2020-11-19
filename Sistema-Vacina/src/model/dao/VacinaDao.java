@@ -8,23 +8,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.vo.Pesquisador;
 import model.vo.Vacina;
+import seletor.VacinaSeletor;
 
 public class VacinaDao {
 	public Vacina cadastrar(Vacina novaVacina) {
 		Connection conn = Banco.getConnection();
 
-		String sql = "INSERT INTO VACINA ( PAISORIGEM, DATAINICIO, ESTAGIOPESQUISA, NOMEPESQUISADOR )"
+		String sql = "INSERT INTO VACINA (ID, PAISORIGEM, DATAINICIO, ESTAGIOPESQUISA, PESQUISADOR, NOME )"
 				+ " VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		ResultSet rs = null;
 		try {
-			
+
 			stmt.setString(1, novaVacina.getPaisOrigem());
 			stmt.setDate(2, (Date) novaVacina.getDataInicio());
-			stmt.setInt(3, novaVacina.getEstagioPesquisa());
-			stmt.setNString(4, novaVacina.getNomePesquisador());
-			stmt.execute();
+			stmt.setInt(3, novaVacina.getEstagioVacina());
+			stmt.setInt(4, novaVacina.getId());
+			stmt.setString(5, novaVacina.getNome());
+			stmt.setInt(6, novaVacina.getPesquisador().getId());
 			rs = stmt.getGeneratedKeys();
 			int refIdGerado = 0;
 
@@ -52,15 +55,17 @@ public class VacinaDao {
 	public boolean alterar(Vacina vacina) {
 		Connection conn = Banco.getConnection();
 
-		String sql = "UPDATE VACINA SET PAISORIGEM=?, DATAINICIO=?, ESTAGIOPESQUISA=?, NOMEPESQUISADOR=? " + "WHERE ID=?";
+		String sql = "UPDATE VACINA SET PAISORIGEM=?, DATAINICIO=?, ESTAGIOPESQUISA=?, PESQUISADOR=?, NOME=? "
+				+ "WHERE ID=?";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		int registrosAlterados = 0;
 		try {
-			
+
 			stmt.setString(1, vacina.getPaisOrigem());
 			stmt.setDate(2, (Date) vacina.getDataInicio());
-			stmt.setInt(3, vacina.getEstagioPesquisa());
-			stmt.setString(4, vacina.getNomePesquisador());
+			stmt.setInt(3, vacina.getEstagioVacina());
+			stmt.setInt(4, vacina.getPesquisador().getId());
+			stmt.setString(5, vacina.getNome());
 
 			registrosAlterados = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -121,12 +126,109 @@ public class VacinaDao {
 		vac.setId(conjuntoResultante.getInt("Id"));
 		vac.setPaisOrigem(conjuntoResultante.getString("País de Origem"));
 		vac.setDataInicio(conjuntoResultante.getDate("Data de Início"));
-		vac.setEstagioPesquisa(conjuntoResultante.getInt("Estágio da Pesquisa"));
-		vac.setNomePesquisador(conjuntoResultante.getString("Nome do Pesquisador"));
+		vac.setNome(conjuntoResultante.getString("Nome"));
+		vac.setEstagioVacina(conjuntoResultante.getInt("Estágio da Vacina"));
+
+		PesquisadorDao pesquisadorDao = new PesquisadorDao();
+
+		int idPesquisador = conjuntoResultante.getInt("idPesquisador");
+		Pesquisador pesquisador = pesquisadorDao.consultarPorId(idPesquisador);
+		vac.setPesquisador(pesquisador);
+
 		return vac;
 	}
 
-	public List<Vacina> pesquisarTodos() {
+	public ArrayList<Vacina> listarComSeletor(VacinaSeletor seletor) {
+		String sql = "SELECT FROM VACINA v";
+		if (seletor.temFiltro()) {
+			sql = criarFiltros(seletor, sql);
+
+		}
+
+		if (seletor.temPaginacao()) {
+			sql += "LIMIT" + seletor.getLimite() + "OFFSET" + seletor.getOffset();
+		}
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<Vacina> vacinas = new ArrayList<Vacina>();
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			while (result.next()) {
+				Vacina v = construirVacinaDoResultSet(result);
+				vacinas.add(v);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar as vacinas com filtros\nCausa:  " + e.getMessage());
+		}
+		return vacinas;
+	}
+
+	private String criarFiltros(VacinaSeletor seletor, String sql) {
+
+		sql += " WHERE ";
+		boolean primeiro = true;
+
+		if (seletor.getId() > 0) {
+			if (!primeiro) {
+				sql += " AND ";
+			}
+
+			sql += "p.id = " + seletor.getId();
+			primeiro = false;
+		}
+
+		if ((seletor.getNome() != null) && (seletor.getNome().trim().length() > 0)) {
+			if (!primeiro) {
+				sql += "AND";
+			}
+			sql += "v.nome LIKE '%" + seletor.getNome() + "%'";
+			primeiro = false;
+		}
+
+		if ((seletor.getPaisOrigem() != null) && (seletor.getPaisOrigem().trim().length() > 0)) {
+			if (!primeiro) {
+				sql += "AND";
+			}
+			sql += "v.paisOrigem LIKE '%" + seletor.getPaisOrigem() + "%'";
+			primeiro = false;
+
+		}
+		return sql;
+
+	}
+
+	public boolean procurarVacinaPorNome(String nome) {
+		String sql = "SELECT * FROM VACINA WHERE NOME = '";
+		Connection conn = Banco.getConnection();
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+
+		ResultSet rs = null;
+
+		int contador = 0;
+
+		try {
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				contador++;
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao procurar vacina por nome" + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+
+		}
+		if (contador == 0)
+			return false;
+		return true;
+
+	}
+
+	public ArrayList<Vacina> listarTodos() {
 		Connection conn = Banco.getConnection();
 		String sql = " SELECT * FROM VACINA ";
 

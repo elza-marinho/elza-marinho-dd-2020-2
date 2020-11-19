@@ -17,8 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import com.github.lgooddatepicker.components.DatePicker;
-
 import controller.PesquisadorController;
 
 import java.util.Calendar;
@@ -80,6 +78,7 @@ public class CadastroPesquisador extends JFrame {
 		contentPane.add(lblInstituicao);
 
 		textInstituicao = new JTextField();
+		textInstituicao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textInstituicao.setBounds(90, 62, 190, 19);
 		contentPane.add(textInstituicao);
 		textInstituicao.setColumns(10);
@@ -115,6 +114,7 @@ public class CadastroPesquisador extends JFrame {
 		try {
 			MaskFormatter mascaraData = new MaskFormatter("##/##/####");
 			textDataNascimento = new JFormattedTextField(mascaraData);
+			textDataNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			
 			textDataNascimento.setBounds(145, 145, 120, 20);
 			contentPane.add(textDataNascimento);

@@ -1,35 +1,56 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.bo.VacinaBO;
 import model.dao.VacinaDao;
+import model.vo.Pesquisador;
 import model.vo.Vacina;
+import seletor.VacinaSeletor;
 
 public class VacinaController {
 	VacinaDao vdao = new VacinaDao();
 	VacinaBO vbo = new VacinaBO();
 
-	public String validarCamposTexto(String PaisOrigem, String Pesquisador) {
-		Vacina vacina = new Vacina();
+	public void validar(JComboBox cbPais, Pesquisador pesquisadorSelecionado, JComboBox cbEstagioPesquisa,
+			String textDataInicio, String textNome) {
 		String mensagem = "";
-		if ((PaisOrigem == null) || (PaisOrigem.trim().length() < 3) || (PaisOrigem.trim().length() < 101)) {
-			JOptionPane.showMessageDialog(null, "Campo país precisa conter no mínimo 3 caracteres");
+		if (cbPais.getSelectedItem() != null && !cbPais.getSelectedItem().toString().equals("SELECIONE")) {
+			JOptionPane.showMessageDialog(null, "Selecione um país");
 
 		}
-		if ((Pesquisador == null) || (Pesquisador.trim().length() < 3) || (Pesquisador.trim().length() < 101)) {
-			JOptionPane.showMessageDialog(null, "Pesquisador precisa conter no mínimo 3 caracteres");
+
+		if ((pesquisadorSelecionado == null)) {
+			JOptionPane.showMessageDialog(null, "Selecione um pesquisador!");
 		}
-		return mensagem;
+
+		if ((cbEstagioPesquisa.getSelectedItem() != null) && !cbEstagioPesquisa.toString().equals("")) {
+			JOptionPane.showMessageDialog(null, "Escolha o estágio em que a vacina se encontra!");
+		}
+
+		if (textDataInicio == null) {
+			JOptionPane.showMessageDialog(null, "Digite uma data");
+		}
+
+		if ((textNome == null) || (textNome.trim().length() < 3) || (textNome.trim().length() < 256)) {
+			JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 3 caracteres");
+		}
+
 	}
 
-	private String validar(Vacina vacina) {
+	public ArrayList<Vacina> listarComSeletor(VacinaSeletor seletor) {
 
-		return null;
+		return vbo.listarComSeletor(seletor);
+	}
+	public ArrayList<Vacina> listarTodos(){
+		return vbo.listarTodos();
+		
 	}
 
 	public String excluir(String textoIdSelecionado) {
@@ -43,17 +64,4 @@ public class VacinaController {
 		return mensagem;
 	}
 
-	public String salvarVacina() {
-	
-		String mensagem = "";
-		Vacina vacina = new Vacina();
-		vacina.getPaisOrigem();
-		vacina.getNomePesquisador();
-		vacina.getDataInicio();
-		vacina.getEstagioVacina();
-		return mensagem;
-		
-	
-	}
 }
-
