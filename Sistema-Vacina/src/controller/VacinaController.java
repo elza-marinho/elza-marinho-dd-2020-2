@@ -18,29 +18,30 @@ public class VacinaController {
 	VacinaDao vdao = new VacinaDao();
 	VacinaBO vbo = new VacinaBO();
 
-	public void validar(JComboBox cbPais, Pesquisador pesquisadorSelecionado, JComboBox cbEstagioPesquisa,
+	public String validar(String textPais,  JComboBox cbPesquisador , JComboBox cbEstagioPesquisa,
 			String textDataInicio, String textNome) {
 		String mensagem = "";
-		if (cbPais.getSelectedItem() != null && !cbPais.getSelectedItem().toString().equals("SELECIONE")) {
-			JOptionPane.showMessageDialog(null, "Selecione um país");
+		if ((textPais == null) || (textPais.trim().length() < 3) || (textPais.trim().length() < 100)) {
+			mensagem +="O país de origem precisa ter no mínimo 2 letras";
 
 		}
 
-		if ((pesquisadorSelecionado == null)) {
-			JOptionPane.showMessageDialog(null, "Selecione um pesquisador!");
+		if ((cbPesquisador.getSelectedItem() ==null)) {
+			mensagem += "Selecione um pesquisador!";
 		}
 
 		if ((cbEstagioPesquisa.getSelectedItem() != null) && !cbEstagioPesquisa.toString().equals("")) {
-			JOptionPane.showMessageDialog(null, "Escolha o estágio em que a vacina se encontra!");
+			mensagem += "Escolha o estágio em que a vacina se encontra!";
 		}
 
 		if (textDataInicio == null) {
-			JOptionPane.showMessageDialog(null, "Digite uma data");
+			mensagem += "Digite uma data";
 		}
 
 		if ((textNome == null) || (textNome.trim().length() < 3) || (textNome.trim().length() < 256)) {
-			JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 3 caracteres");
+			mensagem += "Nome precisa ter no mínimo 3 caracteres";
 		}
+		return mensagem;
 
 	}
 
@@ -48,9 +49,10 @@ public class VacinaController {
 
 		return vbo.listarComSeletor(seletor);
 	}
-	public ArrayList<Vacina> listarTodos(){
+
+	public ArrayList<Vacina> listarTodos() {
 		return vbo.listarTodos();
-		
+
 	}
 
 	public String excluir(String textoIdSelecionado) {
@@ -62,6 +64,13 @@ public class VacinaController {
 			mensagem = "Informe um número inteiro";
 		}
 		return mensagem;
+	}
+
+	public String validar(JTextField textPais, JComboBox cbPesquisador, JComboBox cbEstagioPesquisa,
+			JFormattedTextField textDataInicio, JTextField textNome) {
+				return null;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
+import javax.swing.ButtonGroup;
 
 public class VacinaAplicada extends JFrame {
 	private static final String SELECIONE = "-- Selecione --";
@@ -28,6 +29,8 @@ public class VacinaAplicada extends JFrame {
 	private JPanel contentPane;
 	private JFormattedTextField textDataAplicacao;
 	private DateTimeFormatter formatarData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private JRadioButton rdbtPrimeira;
+	private JRadioButton rdbtnSegunda;
 
 	/**
 	 * Launch the application.
@@ -93,6 +96,7 @@ public class VacinaAplicada extends JFrame {
 		contentPane.add(lblDose);
 
 		JRadioButton rdbtPrimeira = new JRadioButton("Primeira");
+
 		rdbtPrimeira.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtPrimeira.setBounds(60, 145, 80, 20);
 		contentPane.add(rdbtPrimeira);
@@ -153,15 +157,20 @@ public class VacinaAplicada extends JFrame {
 		try {
 			MaskFormatter mascaraData = new MaskFormatter("##/##/####");
 			textDataAplicacao = new JFormattedTextField(mascaraData);
-			
+
 			textDataAplicacao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textDataAplicacao.setBounds(130, 110, 120, 20);
 			contentPane.add(textDataAplicacao);
-			
+
 		} catch (ParseException e1) {
 
 			e1.printStackTrace();
 		}
-
+		ButtonGroup dose = new ButtonGroup();
+		dose.add(rdbtPrimeira);
+		dose.add(rdbtnSegunda);
 	}
+	
+	
+	
 }
