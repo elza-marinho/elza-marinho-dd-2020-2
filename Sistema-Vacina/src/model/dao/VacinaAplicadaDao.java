@@ -128,4 +128,30 @@ public class VacinaAplicadaDao {
 		return vacinacao;
 	}
 
+	public ArrayList<VacinaAplicada> listarTodos() {
+		Connection conn = Banco.getConnection();
+		String sql = "SELECT FROM VACINAAPLICADA";
+
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+
+		ResultSet rs = null;
+		ArrayList<VacinaAplicada> vacinacao = new ArrayList<VacinaAplicada>();
+		try {
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				VacinaAplicada vacinas = construirDoResultSet(rs);
+				vacinacao.add(vacinas);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar as vacinações realizadas.");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return vacinacao;
+
+	}
+
 }

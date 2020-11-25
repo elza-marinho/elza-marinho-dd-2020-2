@@ -188,16 +188,27 @@ public class VacinaDao {
 			primeiro = false;
 		}
 
-		if ((seletor.getPaisOrigem() != null) && (seletor.getPaisOrigem().trim().length() > 0)) {
+		if ((seletor.getPais() != null) && (seletor.getPais().trim().length() > 0)) {
 			if (!primeiro) {
 				sql += "AND";
 			}
-			sql += "v.paisOrigem LIKE '%" + seletor.getPaisOrigem() + "%'";
+			sql += "v.pais LIKE '%" + seletor.getPais() + "%'";
 			primeiro = false;
 
 		}
-		return sql;
+		if (seletor.getEstagioPesquisa() > 0) {
+			if (!primeiro) {
+				sql += " AND ";
+			}
 
+			if ((seletor.getPesquisador() != null) && (seletor.getPesquisador().getId() > 0)) {
+				if (!primeiro) {
+					sql += "AND";
+				}
+				
+			}
+		}
+		return sql;
 	}
 
 	public boolean procurarVacinaPorNome(String nome) {

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -9,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.bo.VacinaBO;
+import model.dao.PesquisadorDao;
 import model.dao.VacinaDao;
 import model.vo.Pesquisador;
 import model.vo.Vacina;
@@ -18,10 +20,10 @@ public class VacinaController {
 	VacinaDao vdao = new VacinaDao();
 	VacinaBO vbo = new VacinaBO();
 
-	public String validar(String textPais,  JComboBox cbPesquisador , JComboBox cbEstagioPesquisa,
-			String textDataInicio, String textNome) {
+	public String salvar(JTextField textPais,  JComboBox cbPesquisador , JComboBox cbEstagioPesquisa,
+			JFormattedTextField textDataInicio, JTextField textNome) {
 		String mensagem = "";
-		if ((textPais == null) || (textPais.trim().length() < 3) || (textPais.trim().length() < 100)) {
+		if (textPais == null)  {
 			mensagem +="O país de origem precisa ter no mínimo 2 letras";
 
 		}
@@ -38,7 +40,7 @@ public class VacinaController {
 			mensagem += "Digite uma data";
 		}
 
-		if ((textNome == null) || (textNome.trim().length() < 3) || (textNome.trim().length() < 256)) {
+		if (textNome == null) {
 			mensagem += "Nome precisa ter no mínimo 3 caracteres";
 		}
 		return mensagem;
@@ -66,11 +68,25 @@ public class VacinaController {
 		return mensagem;
 	}
 
-	public String validar(JTextField textPais, JComboBox cbPesquisador, JComboBox cbEstagioPesquisa,
-			JFormattedTextField textDataInicio, JTextField textNome) {
-				return null;
-		// TODO Auto-generated method stub
+	
+		
+		
+	
+	
+	
+	public void obterPesquisador() {
+		PesquisadorDao dao = new PesquisadorDao();
+		List<Pesquisador>pesquisadores = dao.listarTodos();
+		
+		
+		
+	}
+	
+	public void gerarRelatorio(List<Vacina> vacinas, String caminhoEscolhido) {
+	
+		
+	}
 		
 	}
 
-}
+

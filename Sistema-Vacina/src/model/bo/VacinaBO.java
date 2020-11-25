@@ -1,10 +1,12 @@
 package model.bo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.dao.VacinaDao;
 import model.vo.Vacina;
 import seletor.VacinaSeletor;
+import util.GeradorPlanilha;
 
 public class VacinaBO {
 
@@ -26,11 +28,11 @@ public class VacinaBO {
 
 	}
 
-	public Vacina procurarVacinaPorId(String textId) {
-		Vacina vacinaProcurada = vacinaDao.consultarPorId(Integer.parseInt(textId));
-		return vacinaProcurada;
-
-	}
+	
+public void gerarPlanilha(List<Vacina> vacinas, String caminhoEscolhido) {
+	GeradorPlanilha gerador = new GeradorPlanilha();
+}
+	
 
 	
 
